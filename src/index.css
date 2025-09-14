@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Apple Store Dark Theme - Based on reference design */
+    --background: 220 15% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 220 15% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 15% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Primary red-orange accent from reference */
+    --primary: 16 100% 66%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 15% 12%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 220 15% 10%;
+    --muted-foreground: 220 8% 65%;
+
+    --accent: 220 15% 12%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 15%;
+    --input: 220 15% 12%;
+    --ring: 16 100% 66%;
+
+    --radius: 0.75rem;
+
+    /* Apple Store specific colors */
+    --apple-bg: 220 15% 6%;
+    --apple-surface: 220 15% 8%;
+    --apple-surface-hover: 220 15% 12%;
+    --apple-text: 210 40% 98%;
+    --apple-text-muted: 220 8% 65%;
+    --apple-accent: 16 100% 66%;
+    --apple-accent-hover: 16 100% 60%;
+    --apple-border: 220 15% 15%;
+
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(220 15% 0% / 0.4);
+    --shadow-card: 0 4px 12px -2px hsl(220 15% 0% / 0.3);
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .dark {
+    --background: 220 15% 6%;
+    --foreground: 210 40% 98%;
+    --card: 220 15% 8%;
+    --card-foreground: 210 40% 98%;
+    --popover: 220 15% 8%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 16 100% 66%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 15% 12%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 220 15% 10%;
+    --muted-foreground: 220 8% 65%;
+    --accent: 220 15% 12%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 15%;
+    --input: 220 15% 12%;
+    --ring: 16 100% 66%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-apple-bg text-apple-text font-poppins antialiased;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Apple Store Button Variants */
+  .btn-apple-primary {
+    @apply bg-apple-accent hover:bg-apple-accent-hover text-white font-medium px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105;
+  }
+
+  .btn-apple-secondary {
+    @apply bg-apple-surface hover:bg-apple-surface-hover text-apple-text border border-apple-border font-medium px-6 py-3 rounded-xl transition-all duration-300;
+  }
+
+  .btn-apple-ghost {
+    @apply text-apple-accent hover:text-apple-accent-hover hover:bg-apple-surface font-medium px-4 py-2 rounded-lg transition-all duration-300;
+  }
+
+  /* Product Card Styles */
+  .product-card {
+    @apply bg-apple-surface border border-apple-border rounded-2xl p-6 transition-all duration-500 hover:border-apple-accent/50 hover:shadow-card hover:scale-105;
+  }
+
+  .product-card-image {
+    @apply w-full h-64 object-contain rounded-xl mb-4 bg-apple-bg;
+  }
+
+  /* Text Styles - Use color values directly to avoid circular dependencies */
+  .text-apple-primary {
+    color: hsl(var(--apple-text));
+  }
+
+  .text-apple-muted {
+    color: hsl(var(--apple-text-muted));
+  }
+
+  .text-apple-accent {
+    color: hsl(var(--apple-accent));
+  }
+
+  /* Navigation Styles */
+  .nav-link {
+    @apply text-apple-text-muted hover:text-apple-text transition-colors duration-300 font-medium;
+  }
+
+  .nav-link-active {
+    @apply text-apple-accent;
+  }
+
+  /* Hero Section Styles */
+  .hero-gradient {
+    background: linear-gradient(135deg, hsl(var(--apple-bg)) 0%, hsl(var(--apple-surface)) 100%);
+  }
+
+  /* Animation Classes */
+  .fade-in {
+    @apply animate-[fadeIn_0.6s_ease-out];
+  }
+
+  .scale-in {
+    @apply animate-[scaleIn_0.4s_ease-out];
+  }
+
+  .slide-up {
+    @apply animate-[slideUp_0.8s_ease-out];
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .backdrop-blur-apple {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+}
