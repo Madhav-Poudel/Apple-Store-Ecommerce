@@ -2,14 +2,33 @@ import macbookHero from "@/assets/macbook-hero.jpg";
 import ipadHero from "@/assets/ipad-hero.jpg";
 import watchHero from "@/assets/watch-hero.jpg";
 import airpodsHero from "@/assets/airpods-hero.jpg";
+import { Link } from "react-router-dom";
+import { useCart } from "@/lib/CartContext";
+import { toast } from "@/hooks/use-toast";
 
 const ProductGrid = () => {
+  const { addToCart } = useCart();
+  const handleAddToCart = (product) => {
+    addToCart(
+      { id: product.id, name: product.name, price: product.price },
+      (msg) => {
+        if (msg === "Item already added to cart") {
+          console.log("Toast triggered for:", product.name);
+          toast({
+            title: "Item already added to cart",
+            description: `${product.name} is already in your cart.`,
+            variant: "destructive",
+          });
+        }
+      }
+    );
+  };
   const products = [
     {
       id: 1,
       name: "MacBook Pro",
       subtitle: "Mind-blowing. Head-turning.",
-      price: "From $1,999",
+  price: "From NRs 199,900",
       image: macbookHero,
       category: "mac",
     },
@@ -17,7 +36,7 @@ const ProductGrid = () => {
       id: 2,
       name: "iPad Pro",
       subtitle: "Unbelievably thin. Incredibly powerful.",
-      price: "From $1,099",
+  price: "From NRs 109,900",
       image: ipadHero,
       category: "ipad",
     },
@@ -25,7 +44,7 @@ const ProductGrid = () => {
       id: 3,
       name: "Apple Watch Series 9",
       subtitle: "Smarter. Brighter. Mightier.",
-      price: "From $399",
+  price: "From NRs 39,900",
       image: watchHero,
       category: "watch",
     },
@@ -33,7 +52,7 @@ const ProductGrid = () => {
       id: 4,
       name: "AirPods Pro",
       subtitle: "Adaptive Audio. Now playing.",
-      price: "From $249",
+  price: "From NRs 24,900",
       image: airpodsHero,
       category: "airpods",
     },
@@ -78,7 +97,12 @@ const ProductGrid = () => {
                   {product.price}
                 </p>
                 <div className="flex flex-col gap-2 pt-4">
-                  <button className="bg-apple-accent hover:bg-apple-accent-hover text-white font-semibold px-6 py-2 rounded-xl transition-all duration-300 shadow-lg">Buy Now</button>
+                  <button
+                    className="bg-apple-accent hover:bg-apple-accent-hover text-white font-semibold px-6 py-2 rounded-xl transition-all duration-300 shadow-lg"
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    Add to Cart
+                  </button>
                   <button
                     className="bg-white/10 border border-apple-border text-apple-text font-semibold px-6 py-2 rounded-xl transition-all duration-300 hover:bg-white/20"
                     onClick={() => window.location.href = `/product/${product.id}`}
@@ -91,12 +115,12 @@ const ProductGrid = () => {
           ))}
         </div>
         <div className="flex justify-center mt-10">
-          <button
-            className="bg-apple-accent hover:bg-apple-accent-hover text-white font-semibold px-8 py-4 rounded-xl shadow-lg transition-all duration-300 text-lg"
-            onClick={() => window.location.href = '/product'}
+          <Link
+            to="/product"
+            className="bg-apple-accent hover:bg-apple-accent-hover text-white font-semibold px-8 py-4 rounded-xl shadow-lg transition-all duration-300 text-lg text-center"
           >
             See All Products
-          </button>
+          </Link>
         </div>
       </div>
     </section>

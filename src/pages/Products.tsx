@@ -1,4 +1,6 @@
 import Navbar from "@/components/Navbar";
+import { useCart } from "@/lib/CartContext";
+import { toast } from "@/hooks/use-toast";
 import Footer from "@/components/Footer";
 import macbookHero from "@/assets/macbook-hero.jpg";
 import ipadHero from "@/assets/ipad-hero.jpg";
@@ -60,6 +62,22 @@ const categorizedProducts = {
 };
 
 const Products = () => {
+  const { addToCart } = useCart();
+  const handleAddToCart = (product) => {
+    addToCart(
+      { id: product.id, name: product.name, price: product.price },
+      (msg) => {
+        if (msg === "Item already added to cart") {
+          console.log("Toast triggered for:", product.name);
+          toast({
+            title: "Item already added to cart",
+            description: `${product.name} is already in your cart.`,
+            variant: "destructive",
+          });
+        }
+      }
+    );
+  };
   return (
     <div className="min-h-screen bg-[#181A20]">
       <Navbar />
@@ -76,7 +94,12 @@ const Products = () => {
                 <p className="text-apple-text-muted text-sm">{product.subtitle}</p>
                 <p className="text-lg font-semibold text-apple-accent">{product.price}</p>
                 <div className="flex flex-col gap-2 pt-4">
-                  <button className="bg-apple-accent hover:bg-apple-accent-hover text-white font-semibold px-6 py-2 rounded-xl transition-all duration-300 shadow-lg">Buy Now</button>
+                  <button
+                    className="bg-apple-accent hover:bg-apple-accent-hover text-white font-semibold px-6 py-2 rounded-xl transition-all duration-300 shadow-lg"
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    Add to Cart
+                  </button>
                   <button
                     className="bg-white/10 border border-apple-border text-apple-text font-semibold px-6 py-2 rounded-xl transition-all duration-300 hover:bg-white/20"
                     onClick={() => window.location.href = `/product/${product.id}`}

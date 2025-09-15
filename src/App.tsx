@@ -1,4 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
+// ...existing code...
+import { CartProvider } from "./lib/CartContext";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -8,6 +10,8 @@ import ProductCategory from "./pages/ProductCategory";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import NotFound from "./pages/NotFound";
+import Cart from "./pages/Cart";
+import Auth from "./pages/Auth";
 
 const queryClient = new QueryClient();
 
@@ -16,21 +20,25 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/product" element={<Products />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/product/:category" element={<ProductCategory />} />
-          <Route path="/mac" element={<ProductCategory />} />
-          <Route path="/ipad" element={<ProductCategory />} />
-          <Route path="/iphone" element={<ProductCategory />} />
-          <Route path="/watch" element={<ProductCategory />} />
-          <Route path="/airpods" element={<ProductCategory />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <CartProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/product" element={<Products />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/product/:category" element={<ProductCategory />} />
+            <Route path="/mac" element={<ProductCategory />} />
+            <Route path="/ipad" element={<ProductCategory />} />
+            <Route path="/iphone" element={<ProductCategory />} />
+            <Route path="/watch" element={<ProductCategory />} />
+            <Route path="/airpods" element={<ProductCategory />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/auth" element={<Auth />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

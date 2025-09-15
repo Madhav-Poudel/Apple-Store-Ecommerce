@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useCart } from "@/lib/CartContext";
 import { Link, useLocation } from "react-router-dom";
-import { Apple, Search, ShoppingBag, Menu, X } from "lucide-react";
+import { Apple, Search, ShoppingBag, Menu, X, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { allProducts } from "@/pages/Products";
 
@@ -8,6 +9,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [profileOpen, setProfileOpen] = useState(false);
   const location = useLocation();
 
   // Hide search box when clicking outside or pressing Escape
@@ -45,6 +47,7 @@ const Navbar = () => {
     return false;
   };
 
+  const { getCartCount } = useCart();
   return (
   <nav className="sticky top-0 z-50 bg-apple-bg/80 backdrop-blur-apple border-b border-apple-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -115,9 +118,19 @@ const Navbar = () => {
                 <Search className="h-5 w-5" />
               </Button>
             </div>
-            <Button variant="ghost" size="sm" className="btn-apple-ghost">
-              <ShoppingBag className="h-5 w-5" />
-            </Button>
+            <Link to="/cart" className="btn-apple-ghost">
+              <div className="relative">
+                <ShoppingBag className="h-5 w-5" />
+                {getCartCount() > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-apple-accent text-white text-xs font-bold rounded-full px-2 py-0.5 shadow-lg">
+                    {getCartCount()}
+                  </span>
+                )}
+              </div>
+            </Link>
+            <Link to="/auth" className="btn-apple-ghost">
+              <User className="h-5 w-5" />
+            </Link>
           </div>
 
           {/* Mobile menu button */}
