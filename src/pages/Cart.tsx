@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/lib/CartContext";
 
 const Cart = () => {
@@ -11,6 +11,7 @@ const Cart = () => {
       return sum + priceNum * item.quantity;
     }, 0);
   };
+  const navigate = useNavigate();
   return (
     <div className="max-w-3xl mx-auto py-12 px-4">
       <h1 className="text-3xl font-bold mb-8 text-center">Your Cart</h1>
@@ -43,7 +44,12 @@ const Cart = () => {
           </ul>
           <div className="mt-8 flex flex-col items-end">
             <div className="text-lg font-bold mb-4">Total: NRs {getTotal().toLocaleString()}</div>
-            <button className="bg-apple-accent hover:bg-apple-accent-hover text-white font-semibold px-8 py-3 rounded-xl shadow-lg transition-all duration-300 text-lg">Checkout</button>
+            <button
+              className="bg-apple-accent hover:bg-apple-accent-hover text-white font-semibold px-8 py-3 rounded-xl shadow-lg transition-all duration-300 text-lg"
+              onClick={() => navigate('/auth')}
+            >
+              Checkout
+            </button>
           </div>
         </>
       )}

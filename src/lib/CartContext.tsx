@@ -23,7 +23,15 @@ export const useCart = () => {
 };
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  // Load cart from localStorage on init
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    try {
+      const stored = localStorage.getItem("cartItems");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
 
   const addToCart = (item: Omit<CartItem, "quantity">, notify?: (msg: string) => void) => {
     setCartItems(prev => {
@@ -35,6 +43,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return [...prev, { ...item, quantity: 1 }];
     });
   };
+
+  // Persist cart to localStorage whenever it changes
+  React.useEffect(() => {
+    try {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    } catch {}
+  }, [cartItems]);
 
   const getCartCount = () => cartItems.reduce((sum, item) => sum + item.quantity, 0);
 

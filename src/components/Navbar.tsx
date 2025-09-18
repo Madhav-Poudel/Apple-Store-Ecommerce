@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useCart } from "@/lib/CartContext";
 import { Link, useLocation } from "react-router-dom";
 import { Apple, Search, ShoppingBag, Menu, X, User } from "lucide-react";
+import logo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { allProducts } from "@/pages/Products";
 
 const Navbar = () => {
+  const isLoggedIn = !!localStorage.getItem('token');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [profileOpen, setProfileOpen] = useState(false);
   const location = useLocation();
 
   // Hide search box when clicking outside or pressing Escape
@@ -55,7 +56,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center">
-              <Apple className="h-6 w-6 text-apple-text" />
+              <img src={logo} alt="Logo" className="h-10 w-auto mr-2" />
             </Link>
           </div>
 
@@ -128,7 +129,7 @@ const Navbar = () => {
                 )}
               </div>
             </Link>
-            <Link to="/auth" className="btn-apple-ghost">
+            <Link to={isLoggedIn ? "/profile" : "/auth"} className="btn-apple-ghost">
               <User className="h-5 w-5" />
             </Link>
           </div>

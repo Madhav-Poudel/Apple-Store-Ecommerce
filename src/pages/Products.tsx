@@ -7,6 +7,8 @@ import ipadHero from "@/assets/ipad-hero.jpg";
 import watchHero from "@/assets/watch-hero.jpg";
 import airpodsHero from "@/assets/airpods-hero.jpg";
 import iphoneHero from "@/assets/iphone-hero.jpg";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const allProducts = [
   // iPhone
@@ -63,6 +65,8 @@ const categorizedProducts = {
 
 const Products = () => {
   const { addToCart } = useCart();
+  const [specProduct, setSpecProduct] = useState(null);
+  const navigate = useNavigate();
   const handleAddToCart = (product) => {
     addToCart(
       { id: product.id, name: product.name, price: product.price },
@@ -102,9 +106,9 @@ const Products = () => {
                   </button>
                   <button
                     className="bg-white/10 border border-apple-border text-apple-text font-semibold px-6 py-2 rounded-xl transition-all duration-300 hover:bg-white/20"
-                    onClick={() => window.location.href = `/product/${product.id}`}
+                    onClick={() => navigate(`/specs/${product.id}`, { state: { product } })}
                   >
-                    See Product
+                    Learn More
                   </button>
                 </div>
               </div>
@@ -112,6 +116,65 @@ const Products = () => {
           ))}
         </div>
       </main>
+      {/* Product Specification Modal */}
+      {specProduct && (
+  <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/60">
+          <div style={{
+            background: "#fff",
+            borderRadius: "20px",
+            maxWidth: "500px",
+            margin: "auto",
+            padding: "2rem",
+            boxShadow: "0 4px 32px rgba(0,0,0,0.18)",
+            position: "relative"
+          }}>
+            <button
+              style={{
+                position: "absolute",
+                top: 20,
+                right: 20,
+                background: "none",
+                border: "none",
+                fontSize: "2rem",
+                color: "#ff7043",
+                cursor: "pointer"
+              }}
+              onClick={() => setSpecProduct(null)}
+            >
+              &times;
+            </button>
+            <h2 style={{
+              color: "#ff7043",
+              fontWeight: 700,
+              marginBottom: "1.5rem"
+            }}>Specifications</h2>
+            <ul style={{
+              marginBottom: "1.5rem",
+              color: "#888",
+              textAlign: "left",
+              listStyle: "disc",
+              marginLeft: "1.5rem"
+            }}>
+              <li>Processor: Apple M-series / A-series</li>
+              <li>RAM: 8GB / 16GB / 32GB</li>
+              <li>Storage: 128GB / 256GB / 512GB / 1TB</li>
+              <li>Display: Retina / Liquid Retina / Super Retina</li>
+              <li>Battery: Up to 20 hours</li>
+              <li>Operating System: Latest iOS / macOS / watchOS</li>
+              <li>Audio: Spatial Audio, Active Noise Cancellation</li>
+              <li>Connectivity: Wi-Fi 6E, Bluetooth 5.3, USB-C</li>
+              <li>Camera: 12MP Ultra Wide, 4K video recording</li>
+              <li>Build: Aluminum / Stainless Steel / Ceramic</li>
+              <li>Water Resistance: IP68 / WR50</li>
+              <li>Security: Face ID / Touch ID / Secure Enclave</li>
+              <li>Colors: Silver, Space Gray, Gold, Midnight</li>
+              <li>Weight: 180g - 650g (varies by product)</li>
+              <li>Warranty: 1 Year Limited</li>
+            </ul>
+            <button className="w-full bg-apple-accent text-white font-semibold rounded-lg py-2 mt-2" onClick={() => setSpecProduct(null)}>Close</button>
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   );
